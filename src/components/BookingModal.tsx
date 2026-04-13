@@ -131,7 +131,7 @@ export function BookingModal({ open, onOpenChange, route }: BookingModalProps) {
       setTransactionRef(reference);
       
       // Extract numeric amount from price (remove KSh and any commas)
-      const amount = route.price.replace(/[^0-9]/g, '');
+      const amount = route?.price?.replace(/[^0-9]/g, '') || '';
       
       // Initiate STK Push
       const stkResponse = await initiateSTKPush(amount, mpesaPhone, reference);
@@ -178,17 +178,17 @@ export function BookingModal({ open, onOpenChange, route }: BookingModalProps) {
 SKYWARD AIRLINES - BOARDING PASS
 =====================================
 
-Flight: ${route.from} → ${route.to}
+Flight: ${route?.from} → ${route?.to}
 Date: ${travelDate ? format(travelDate, "dd MMM yyyy") : "—"}
 Time: ${flightTime}
 Passenger: ${form.fullName}
 Ticket Reference: ${ticketRef}
-Amount Paid: ${route.price}
+Amount Paid: ${route?.price}
 ID/Passport: ${form.idNumber}
 Email: ${form.email}
 
-From: ${route.from} (Terminal 1)
-To: ${route.to} (Terminal 2)
+From: ${route?.from} (Terminal 1)
+To: ${route?.to} (Terminal 2)
 
 Please present this ticket at check-in. Safe travels! ✈️
 =====================================
@@ -249,13 +249,13 @@ Please present this ticket at check-in. Safe travels! ✈️
             </div>
             <div>
               <span className="font-bold text-foreground text-sm sm:text-base block">
-                {route.from} → {route.to}
+                {route?.from} → {route?.to}
               </span>
               <span className="text-xs text-muted-foreground">Direct Flight</span>
             </div>
           </div>
           <div className="text-right">
-            <span className="font-bold text-sky-cta text-base sm:text-lg block">{route.price}</span>
+            <span className="font-bold text-sky-cta text-base sm:text-lg block">{route?.price}</span>
             <span className="text-xs text-muted-foreground">Per person</span>
           </div>
         </div>
@@ -399,7 +399,7 @@ Please present this ticket at check-in. Safe travels! ✈️
                 Searching for flights...
               </p>
               <p className="text-sm text-muted-foreground">
-                {route.from} → {route.to}
+                {route?.from} → {route?.to}
               </p>
             </div>
             <div className="w-full bg-muted/50 rounded-full h-4 overflow-hidden shadow-inner">
@@ -430,7 +430,7 @@ Please present this ticket at check-in. Safe travels! ✈️
               <div className="flex items-center justify-between">
                 <div className="text-center">
                   <p className="text-xs text-muted-foreground font-medium">FROM</p>
-                  <p className="font-heading font-bold text-foreground text-lg mt-1">{route.from}</p>
+                  <p className="font-heading font-bold text-foreground text-lg mt-1">{route?.from}</p>
                   <p className="text-xs text-muted-foreground mt-2">
                     <MapPin className="h-3 w-3 inline mr-1" />
                     Terminal 1
@@ -448,7 +448,7 @@ Please present this ticket at check-in. Safe travels! ✈️
                 </div>
                 <div className="text-center">
                   <p className="text-xs text-muted-foreground font-medium">TO</p>
-                  <p className="font-heading font-bold text-foreground text-lg mt-1">{route.to}</p>
+                  <p className="font-heading font-bold text-foreground text-lg mt-1">{route?.to}</p>
                   <p className="text-xs text-muted-foreground mt-2">
                     <MapPin className="h-3 w-3 inline mr-1" />
                     Terminal 2
@@ -467,7 +467,7 @@ Please present this ticket at check-in. Safe travels! ✈️
                 </div>
                 <div className="bg-sky-cta/10 rounded-xl p-3">
                   <p className="text-xs text-muted-foreground font-medium">PRICE</p>
-                  <p className="font-bold text-sky-cta mt-1">{route.price}</p>
+                  <p className="font-bold text-sky-cta mt-1">{route?.price}</p>
                 </div>
               </div>
             </div>
@@ -671,7 +671,7 @@ Please present this ticket at check-in. Safe travels! ✈️
                 <div className="flex justify-between items-center">
                   <div>
                     <p className="text-xs opacity-80 font-medium">FROM</p>
-                    <p className="font-bold text-xl mt-1">{route.from}</p>
+                    <p className="font-bold text-xl mt-1">{route?.from}</p>
                   </div>
                   <div className="flex-1 flex flex-col items-center px-4">
                     <div className="bg-white/20 p-3 rounded-full">
@@ -685,7 +685,7 @@ Please present this ticket at check-in. Safe travels! ✈️
                   </div>
                   <div className="text-right">
                     <p className="text-xs opacity-80 font-medium">TO</p>
-                    <p className="font-bold text-xl mt-1">{route.to}</p>
+                    <p className="font-bold text-xl mt-1">{route?.to}</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-sm border-t border-white/20 pt-4">
@@ -703,7 +703,7 @@ Please present this ticket at check-in. Safe travels! ✈️
                   </div>
                   <div className="bg-white/10 rounded-xl p-3">
                     <p className="text-xs opacity-80 font-medium">AMOUNT PAID</p>
-                    <p className="font-semibold mt-1">{route.price}</p>
+                    <p className="font-semibold mt-1">{route?.price}</p>
                   </div>
                   <div className="bg-white/10 rounded-xl p-3">
                     <p className="text-xs opacity-80 font-medium">ID/PASSPORT</p>

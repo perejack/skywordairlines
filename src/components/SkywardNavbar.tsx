@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
 import { Menu, X, Plane, ChevronDown, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -30,7 +29,7 @@ export function SkywardNavbar() {
       <nav className="sticky top-0 z-50 bg-sky-brand/95 backdrop-blur-md border-b border-sky-brand-foreground/10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-14 sm:h-16 items-center justify-between">
-            <Link to="/" className="flex items-center gap-2">
+            <a href="/" className="flex items-center gap-2">
               <Plane className="h-7 w-7 sm:h-8 sm:w-8 text-sky-cta" />
               <div className="flex flex-col leading-none">
                 <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-sky-cta font-bold">
@@ -40,7 +39,7 @@ export function SkywardNavbar() {
                   Airlines
                 </span>
               </div>
-            </Link>
+            </a>
 
             <div className="hidden md:flex items-center gap-1">
               {["About Us", "Destinations", "Travel Information", "Contact Us"].map(
