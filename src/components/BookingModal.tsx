@@ -225,7 +225,7 @@ Please present this ticket at check-in. Safe travels! ✈️
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-lg max-h-[95vh] overflow-y-auto p-4 sm:p-6 bg-gradient-to-br from-background via-background to-sky-light/30 backdrop-blur-sm border-0 shadow-2xl">
+      <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-lg max-h-[95vh] overflow-y-auto p-3 sm:p-6 bg-gradient-to-br from-background via-background to-sky-light/30 backdrop-blur-sm border-0 shadow-2xl mx-auto">
         <StepIndicator step={step} />
 
         <DialogHeader>
@@ -242,19 +242,19 @@ Please present this ticket at check-in. Safe travels! ✈️
         </DialogHeader>
 
         {/* Route banner */}
-        <div className="bg-gradient-to-r from-sky-brand/20 to-sky-cta/20 backdrop-blur-sm rounded-2xl p-4 flex items-center justify-between text-sm border border-sky-cta/30 shadow-lg">
-          <div className="flex items-center gap-3">
-            <div className="bg-sky-cta/20 p-2 rounded-xl">
+        <div className="bg-gradient-to-r from-sky-brand/20 to-sky-cta/20 backdrop-blur-sm rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between text-sm border border-sky-cta/30 shadow-lg gap-2 sm:gap-0">
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+            <div className="bg-sky-cta/20 p-2 rounded-xl flex-shrink-0">
               <PlaneTakeoff className="h-5 w-5 text-sky-cta" />
             </div>
-            <div>
-              <span className="font-bold text-foreground text-sm sm:text-base block">
+            <div className="min-w-0 flex-1">
+              <span className="font-bold text-foreground text-sm sm:text-base block truncate">
                 {route?.from} → {route?.to}
               </span>
               <span className="text-xs text-muted-foreground">Direct Flight</span>
             </div>
           </div>
-          <div className="text-right">
+          <div className="text-left sm:text-right w-full sm:w-auto">
             <span className="font-bold text-sky-cta text-base sm:text-lg block">{route?.price}</span>
             <span className="text-xs text-muted-foreground">Per person</span>
           </div>
@@ -262,16 +262,16 @@ Please present this ticket at check-in. Safe travels! ✈️
 
         {/* Step 1: Details */}
         {step === "details" && (
-          <form onSubmit={handleSubmitDetails} className="space-y-4 mt-4">
-            <div className="relative group">
-              <User className="absolute left-4 top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
+          <form onSubmit={handleSubmitDetails} className="space-y-3 sm:space-y-4 mt-4 w-full">
+            <div className="relative group w-full">
+              <User className="absolute left-3 sm:left-4 top-3.5 sm:top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
               <input
                 name="fullName"
                 value={form.fullName}
                 onChange={handleChange}
-                placeholder="Full Name (as on passport/ID)"
+                placeholder="Full Name"
                 required
-                className="w-full rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-12 pr-4 py-4 text-base outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta transition-all duration-300 shadow-sm hover:shadow-md"
+                className="w-full min-w-0 rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 text-sm sm:text-base outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta transition-all duration-300 shadow-sm hover:shadow-md"
               />
             </div>
 
@@ -281,14 +281,14 @@ Please present this ticket at check-in. Safe travels! ✈️
                 <button
                   type="button"
                   className={cn(
-                    "w-full rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-12 pr-4 py-4 text-base text-left outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta relative transition-all duration-300 shadow-sm hover:shadow-md group",
+                    "w-full min-w-0 rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 text-sm sm:text-base text-left outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta relative transition-all duration-300 shadow-sm hover:shadow-md group",
                     !dob && "text-muted-foreground"
                   )}
                 >
-                  <CalendarDays className="absolute left-4 top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
+                  <CalendarDays className="absolute left-3 sm:left-4 top-3.5 sm:top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
                   <span className="flex items-center justify-between w-full">
-                    {dob ? format(dob, "PPP") : "Date of Birth"}
-                    <span className="text-xs text-muted-foreground">📅</span>
+                    <span className="truncate">{dob ? format(dob, "PPP") : "Date of Birth"}</span>
+                    <span className="text-xs text-muted-foreground flex-shrink-0 ml-2">📅</span>
                   </span>
                 </button>
               </PopoverTrigger>
@@ -304,8 +304,8 @@ Please present this ticket at check-in. Safe travels! ✈️
               </PopoverContent>
             </Popover>
 
-            <div className="relative group">
-              <Mail className="absolute left-4 top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
+            <div className="relative group w-full">
+              <Mail className="absolute left-3 sm:left-4 top-3.5 sm:top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
               <input
                 name="email"
                 type="email"
@@ -313,19 +313,19 @@ Please present this ticket at check-in. Safe travels! ✈️
                 onChange={handleChange}
                 placeholder="Email Address"
                 required
-                className="w-full rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-12 pr-4 py-4 text-base outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta transition-all duration-300 shadow-sm hover:shadow-md"
+                className="w-full min-w-0 rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 text-sm sm:text-base outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta transition-all duration-300 shadow-sm hover:shadow-md"
               />
             </div>
 
-            <div className="relative group">
-              <Phone className="absolute left-4 top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
+            <div className="relative group w-full">
+              <Phone className="absolute left-3 sm:left-4 top-3.5 sm:top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
               <input
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
-                placeholder="Phone Number (e.g. 0712345678)"
+                placeholder="Phone (e.g. 0712345678)"
                 required
-                className="w-full rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-12 pr-4 py-4 text-base outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta transition-all duration-300 shadow-sm hover:shadow-md"
+                className="w-full min-w-0 rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 text-sm sm:text-base outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta transition-all duration-300 shadow-sm hover:shadow-md"
               />
             </div>
 
@@ -335,14 +335,14 @@ Please present this ticket at check-in. Safe travels! ✈️
                 <button
                   type="button"
                   className={cn(
-                    "w-full rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-12 pr-4 py-4 text-base text-left outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta relative transition-all duration-300 shadow-sm hover:shadow-md group",
+                    "w-full min-w-0 rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 text-sm sm:text-base text-left outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta relative transition-all duration-300 shadow-sm hover:shadow-md group",
                     !travelDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarDays className="absolute left-4 top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
+                  <CalendarDays className="absolute left-3 sm:left-4 top-3.5 sm:top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
                   <span className="flex items-center justify-between w-full">
-                    {travelDate ? format(travelDate, "PPP") : "Travel Date"}
-                    <span className="text-xs text-muted-foreground">✈️</span>
+                    <span className="truncate">{travelDate ? format(travelDate, "PPP") : "Travel Date"}</span>
+                    <span className="text-xs text-muted-foreground flex-shrink-0 ml-2">📅</span>
                   </span>
                 </button>
               </PopoverTrigger>
@@ -357,15 +357,15 @@ Please present this ticket at check-in. Safe travels! ✈️
               </PopoverContent>
             </Popover>
 
-            <div className="relative group">
-              <CreditCard className="absolute left-4 top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
+            <div className="relative group w-full">
+              <CreditCard className="absolute left-3 sm:left-4 top-3.5 sm:top-4 h-5 w-5 text-muted-foreground group-focus-within:text-sky-cta transition-colors" />
               <input
                 name="idNumber"
                 value={form.idNumber}
                 onChange={handleChange}
-                placeholder="Passport / Government ID Number"
+                placeholder="ID / Passport Number"
                 required
-                className="w-full rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-12 pr-4 py-4 text-base outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta transition-all duration-300 shadow-sm hover:shadow-md"
+                className="w-full min-w-0 rounded-2xl border border-input/60 bg-background/80 backdrop-blur-sm pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 text-sm sm:text-base outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta transition-all duration-300 shadow-sm hover:shadow-md"
               />
             </div>
 
@@ -419,7 +419,7 @@ Please present this ticket at check-in. Safe travels! ✈️
         {/* Step 3: Flight found */}
         {step === "found" && (
           <div className="mt-4 space-y-4">
-            <div className="bg-gradient-to-br from-sky-brand/10 via-sky-cta/10 to-sky-brand/10 backdrop-blur-sm border border-sky-cta/30 rounded-3xl p-6 space-y-4 shadow-xl">
+            <div className="bg-gradient-to-br from-sky-brand/10 via-sky-cta/10 to-sky-brand/10 backdrop-blur-sm border border-sky-cta/30 rounded-3xl p-3 sm:p-6 space-y-4 shadow-xl">
               <div className="flex items-center justify-center gap-2 text-green-600">
                 <div className="bg-green-100 p-2 rounded-full">
                   <CheckCircle2 className="h-6 w-6" />
@@ -427,28 +427,28 @@ Please present this ticket at check-in. Safe travels! ✈️
                 <span className="font-bold text-base">Flight Available!</span>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="text-center">
+              <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-4 sm:gap-2">
+                <div className="text-center flex-1 min-w-0">
                   <p className="text-xs text-muted-foreground font-medium">FROM</p>
-                  <p className="font-heading font-bold text-foreground text-lg mt-1">{route?.from}</p>
+                  <p className="font-heading font-bold text-foreground text-base sm:text-lg mt-1 truncate">{route?.from}</p>
                   <p className="text-xs text-muted-foreground mt-2">
                     <MapPin className="h-3 w-3 inline mr-1" />
                     Terminal 1
                   </p>
                 </div>
-                <div className="flex-1 flex flex-col items-center px-3">
+                <div className="flex flex-row sm:flex-col items-center gap-2 sm:gap-1 px-2">
                   <div className="bg-sky-cta/20 p-2 rounded-full">
-                    <PlaneTakeoff className="h-6 w-6 text-sky-cta" />
+                    <PlaneTakeoff className="h-5 w-5 sm:h-6 sm:w-6 text-sky-cta" />
                   </div>
-                  <div className="w-full h-0.5 bg-gradient-to-r from-sky-cta to-sky-brand my-2 rounded-full" />
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground font-medium">
+                  <div className="hidden sm:block w-16 h-0.5 bg-gradient-to-r from-sky-cta to-sky-brand rounded-full" />
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground font-medium whitespace-nowrap">
                     <Clock className="h-3 w-3" />
                     {flightTime}
                   </div>
                 </div>
-                <div className="text-center">
+                <div className="text-center flex-1 min-w-0">
                   <p className="text-xs text-muted-foreground font-medium">TO</p>
-                  <p className="font-heading font-bold text-foreground text-lg mt-1">{route?.to}</p>
+                  <p className="font-heading font-bold text-foreground text-base sm:text-lg mt-1 truncate">{route?.to}</p>
                   <p className="text-xs text-muted-foreground mt-2">
                     <MapPin className="h-3 w-3 inline mr-1" />
                     Terminal 2
@@ -456,18 +456,18 @@ Please present this ticket at check-in. Safe travels! ✈️
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-3 text-center text-sm border-t border-border/50 pt-4">
-                <div className="bg-background/50 rounded-xl p-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 text-center text-sm border-t border-border/50 pt-4">
+                <div className="bg-background/50 rounded-xl p-2 sm:p-3">
                   <p className="text-xs text-muted-foreground font-medium">DATE</p>
-                  <p className="font-semibold text-foreground mt-1">{travelDate ? format(travelDate, "dd MMM yyyy") : "—"}</p>
+                  <p className="font-semibold text-foreground mt-1 text-xs sm:text-sm">{travelDate ? format(travelDate, "dd MMM yyyy") : "—"}</p>
                 </div>
-                <div className="bg-background/50 rounded-xl p-3">
+                <div className="bg-background/50 rounded-xl p-2 sm:p-3">
                   <p className="text-xs text-muted-foreground font-medium">PASSENGER</p>
-                  <p className="font-semibold text-foreground mt-1 truncate">{form.fullName || "—"}</p>
+                  <p className="font-semibold text-foreground mt-1 text-xs sm:text-sm truncate">{form.fullName || "—"}</p>
                 </div>
-                <div className="bg-sky-cta/10 rounded-xl p-3">
+                <div className="bg-sky-cta/10 rounded-xl p-2 sm:p-3">
                   <p className="text-xs text-muted-foreground font-medium">PRICE</p>
-                  <p className="font-bold text-sky-cta mt-1">{route?.price}</p>
+                  <p className="font-bold text-sky-cta mt-1 text-xs sm:text-sm">{route?.price}</p>
                 </div>
               </div>
             </div>
@@ -498,10 +498,10 @@ Please present this ticket at check-in. Safe travels! ✈️
                 <span className="text-4xl">📱</span>
               </div>
               <p className="font-heading font-bold text-xl text-foreground">Enter M-Pesa Number</p>
-              <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+              <p className="text-sm text-muted-foreground max-w-none sm:max-w-xs mx-auto px-2">
                 Enter the phone number to receive the M-Pesa STK push payment request.
               </p>
-              <div className="relative max-w-xs mx-auto">
+              <div className="relative w-full max-w-none sm:max-w-xs mx-auto">
                 <Phone className="absolute left-4 top-4 h-5 w-5 text-muted-foreground" />
                 <input
                   value={mpesaPhone}
