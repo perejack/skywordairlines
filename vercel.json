@@ -3,7 +3,7 @@
   "name": "skyward-airlines-booking",
   "buildCommand": "npm run build",
   "outputDirectory": "dist/client",
-  "framework": null,
+  "framework": "vite",
   "installCommand": "npm install",
   "rewrites": [
     {
@@ -13,10 +13,6 @@
     {
       "source": "/api/hashback/transactionstatus",
       "destination": "/api/hashback/transactionstatus.ts"
-    },
-    {
-      "source": "/assets/(.*)",
-      "destination": "/assets/$1"
     },
     {
       "source": "/(.*)",
