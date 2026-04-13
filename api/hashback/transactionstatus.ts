@@ -22,22 +22,45 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const { checkoutid } = req.body;
+    // Parse request body if it's a string
+    let body = req.body;
+    if (typeof body === 'string') {
+      body = JSON.parse(body);
+    }
+    
+    const { checkoutid } = body || {};
+    
+    console.log('Received status check request:', { checkoutid });
+
+    if (!checkoutid) {
+      return res.status(400).json({ 
+        error: 'Missing required field: checkoutid',
+        received: { checkoutid }
+      });
+    }
 
     // Forward request to Hashback API
+    const requestBody = {
+      api_key: API_KEY,
+      account_id: ACCOUNT_ID,
+      checkoutid: String(checkoutid),
+    };
+    
+    console.log('Forwarding to Hashback status:', requestBody);
+
     const response = await fetch(`${HASHBACK_API_URL}/transactionstatus`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
-      body: JSON.stringify({
-        api_key: API_KEY,
-        account_id: ACCOUNT_ID,
-        checkoutid,
-      }),
+      body: JSON.stringify(requestBody),
     });
 
+    console.log('Hashback status response status:', response.status);
+    
     const data = await response.json();
+    console.log('Hashback status response data:', data);
     
     if (!response.ok) {
       return res.status(response.status).json(data);
@@ -48,7 +71,8 @@ export default async function handler(req: any, res: any) {
     console.error('Hashback API Error:', error);
     return res.status(500).json({ 
       error: 'Internal server error',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
     });
   }
 }

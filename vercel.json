@@ -1,42 +1,9 @@
 {
-  "version": 2,
-  "name": "skyward-airlines-booking",
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
-  "installCommand": "npm install",
   "rewrites": [
-    {
-      "source": "/api/hashback/initiatestk",
-      "destination": "/api/hashback/initiatestk.ts"
-    },
-    {
-      "source": "/api/hashback/transactionstatus",
-      "destination": "/api/hashback/transactionstatus.ts"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/api/hashback/(.*)", "destination": "https://api.hashback.io/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-        }
-      ]
-    },
     {
       "source": "/assets/(.*)",
       "headers": [
@@ -47,9 +14,7 @@
       ]
     }
   ],
-  "functions": {
-    "api/hashback/*.ts": {
-      "maxDuration": 30
-    }
-  }
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite"
 }

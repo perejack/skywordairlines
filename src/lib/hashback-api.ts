@@ -67,8 +67,10 @@ export async function initiateSTKPush(
 
   console.log("Initiating STK Push for:", msisdn);
 
-  // Only send necessary data - credentials are stored server-side in Vercel functions
+  // Include credentials for proxy approach
   const requestBody = {
+    api_key: API_KEY,
+    account_id: ACCOUNT_ID,
     amount,
     msisdn,
     reference,
@@ -114,8 +116,10 @@ export async function initiateSTKPush(
 export async function checkTransactionStatus(
   checkoutId: string
 ): Promise<CheckTransactionStatusResponse> {
-  // Only send necessary data - credentials are stored server-side in Vercel functions
+  // Include credentials for proxy approach
   const requestBody = {
+    api_key: API_KEY,
+    account_id: ACCOUNT_ID,
     checkoutid: checkoutId,
   };
 
