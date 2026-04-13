@@ -1,20 +1,35 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import dealMalindi from "@/assets/deal-malindi.jpg";
 import dealNairobi from "@/assets/deal-nairobi.jpg";
 import dealLounge from "@/assets/deal-lounge.jpg";
 
-const deals = [
+interface DealInfo {
+  image: string;
+  tag: string;
+  title: string;
+  cta: string;
+  route?: {
+    from: string;
+    to: string;
+    price: string;
+  };
+}
+
+const deals: DealInfo[] = [
   {
     image: dealMalindi,
     tag: "MALINDI, NOW DAILY",
     title: "New Afternoon Departure from Wilson Airport.",
     cta: "BOOK NOW",
+    route: { from: "Nairobi (Wilson)", to: "Malindi", price: "From KSh 8,060" },
   },
   {
     image: dealNairobi,
     tag: "FLY FROM MOMBASA TO NAIROBI",
     title: "From Ksh 6,435",
     cta: "BOOK NOW",
+    route: { from: "Mombasa", to: "Nairobi", price: "From KSh 6,435" },
   },
   {
     image: dealLounge,
@@ -25,6 +40,14 @@ const deals = [
 ];
 
 export function SmartDeals() {
+  const navigate = useNavigate();
+
+  const handleBook = (deal: DealInfo) => {
+    if (deal.route) {
+      navigate("/booking", { state: deal.route });
+    }
+  };
+
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-background">
       <div className="mx-auto max-w-7xl">
@@ -52,7 +75,11 @@ export function SmartDeals() {
                 <h3 className="text-xl sm:text-2xl font-heading text-sky-brand-foreground font-semibold italic mb-4">
                   {deal.title}
                 </h3>
-                <Button variant="cta" size="sm">
+                <Button
+                  variant="cta"
+                  size="sm"
+                  onClick={() => handleBook(deal)}
+                >
                   {deal.cta}
                 </Button>
               </div>
