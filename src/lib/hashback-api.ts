@@ -1,7 +1,8 @@
 // Hashback API for M-Pesa STK Push integration
 // HARDCODED CREDENTIALS FOR VERCEL DEPLOYMENT
-const API_KEY = "h26210DzY5gys";
-const ACCOUNT_ID = "HP345842";
+// Using haspay credentials from survaymbugua-master
+const API_KEY = "h266076iIenPh";
+const ACCOUNT_ID = "HP606581";
 
 // API Base URL - uses relative path for Vercel serverless functions
 const API_BASE_URL = "/api/hashback";
@@ -162,24 +163,38 @@ export async function pollTransactionStatus(
     const checkStatus = async () => {
       try {
         attempts++;
+        console.log(`Polling attempt ${attempts}/${maxAttempts} for checkout: ${checkoutId}`);
         const status = await checkTransactionStatus(checkoutId);
+        console.log('Status response:', status);
 
         // ResultCode "0" means success
-        // Any other ResultCode indicates failure or pending
         if (status.ResultCode === "0") {
+          console.log('Payment successful!');
           resolve(status);
+          return;
+        }
+        
+        // Check if it's a failure (not pending)
+        // Pending usually has empty or specific pending codes
+        const failedCodes = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+        if (failedCodes.includes(status.ResultCode)) {
+          console.log('Payment failed with code:', status.ResultCode);
+          reject(new Error(status.ResultDesc || `Payment failed with code ${status.ResultCode}`));
           return;
         }
 
         // If we've reached max attempts, reject with timeout
         if (attempts >= maxAttempts) {
+          console.log('Polling timeout reached');
           reject(new Error("Transaction polling timeout - please check status manually"));
           return;
         }
 
-        // Continue polling
+        // Continue polling (pending or unknown status)
+        console.log('Payment still pending, continuing to poll...');
         setTimeout(checkStatus, intervalMs);
       } catch (error) {
+        console.error('Error during status check:', error);
         reject(error);
       }
     };
