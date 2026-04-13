@@ -9,10 +9,9 @@ lerna-debug.log*
 
 node_modules
 
-# Dist - but allow client folder for Vercel
-dist/*
-!dist/client
-!dist/client/**/*
+# Build outputs
+dist
+dist-ssr
 .output
 .vinxi
 .tanstack/**

@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { SkywardNavbar } from "@/components/SkywardNavbar";
 import { HeroSection } from "@/components/HeroSection";
 import { SmartDeals } from "@/components/SmartDeals";
@@ -8,11 +7,7 @@ import { NewsletterSection } from "@/components/NewsletterSection";
 import { SkywardFooter } from "@/components/SkywardFooter";
 import { TalkToUs } from "@/components/TalkToUs";
 
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-function Index() {
+function App() {
   return (
     <div className="min-h-screen">
       <SkywardNavbar />
@@ -26,3 +21,5 @@ function Index() {
     </div>
   );
 }
+
+export default App;
