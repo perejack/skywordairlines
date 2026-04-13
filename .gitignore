@@ -8,8 +8,11 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
-dist-ssr
+
+# Dist - but allow client folder for Vercel
+dist/*
+!dist/client
+!dist/client/**/*
 .output
 .vinxi
 .tanstack/**

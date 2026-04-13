@@ -2,8 +2,9 @@
   "version": 2,
   "name": "skyward-airlines-booking",
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
+  "outputDirectory": "dist/client",
+  "framework": null,
+  "installCommand": "npm install",
   "rewrites": [
     {
       "source": "/api/hashback/initiatestk",
@@ -14,7 +15,11 @@
       "destination": "/api/hashback/transactionstatus.ts"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
@@ -33,6 +38,15 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     }
