@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { BookingModal } from "@/components/BookingModal";
 import destMombasa from "@/assets/dest-mombasa.jpg";
 import destEldoret from "@/assets/dest-eldoret.jpg";
 import destMalindi from "@/assets/dest-malindi2.jpg";
@@ -107,12 +106,10 @@ function TwoColRow({
 }
 
 export function Destinations() {
-  const [selectedRoute, setSelectedRoute] = useState<RouteInfo | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleBook = (route: RouteInfo) => {
-    setSelectedRoute(route);
-    setModalOpen(true);
+    navigate("/booking", { state: route });
   };
 
   const dRows = [
@@ -157,11 +154,6 @@ export function Destinations() {
         ))}
       </div>
 
-      <BookingModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        route={selectedRoute}
-      />
     </section>
   );
 }
