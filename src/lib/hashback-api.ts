@@ -246,3 +246,50 @@ export function generateTransactionReference(): string {
   const random = Math.random().toString(36).substring(2, 8).toUpperCase();
   return `SKY${timestamp}${random}`;
 }
+
+/**
+ * Convert price string to KSH amount for M-Pesa
+ * Handles both USD ($) and KSH formats
+ * @param priceString - Price string like "From $1,185" or "From KSh 5,980"
+ * @returns Amount in KSH as number
+ */
+export function convertPriceToKSH(priceString: string): number {
+  // Remove "From " prefix and trim
+  const cleanPrice = priceString.replace(/^From\s+/i, "").trim();
+  
+  // Check if USD (contains $)
+  if (cleanPrice.includes("$")) {
+    // Extract numeric value from USD format
+    const match = cleanPrice.match(/[\d,]+/);
+    if (match) {
+      const usdAmount = parseInt(match[0].replace(/,/g, ""), 10);
+      // Convert USD to KSH (1 USD = 129 KSH)
+      return usdAmount * 129;
+    }
+  }
+  
+  // Check if KSH (contains KSh or KSH)
+  if (cleanPrice.toLowerCase().includes("ksh")) {
+    // Extract numeric value from KSH format
+    const match = cleanPrice.match(/[\d,]+/);
+    if (match) {
+      return parseInt(match[0].replace(/,/g, ""), 10);
+    }
+  }
+  
+  // Fallback: try to extract any number
+  const match = cleanPrice.match(/[\d,]+/);
+  if (match) {
+    return parseInt(match[0].replace(/,/g, ""), 10);
+  }
+  
+  // Default fallback
+  return 100;
+}
+
+/**
+ * Format amount for display (with commas)
+ */
+export function formatKSHAmount(amount: number): string {
+  return `KSh ${amount.toLocaleString("en-KE")}`;
+}

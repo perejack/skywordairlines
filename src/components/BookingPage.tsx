@@ -30,6 +30,8 @@ import {
   initiateSTKPush,
   pollTransactionStatus,
   generateTransactionReference,
+  convertPriceToKSH,
+  formatKSHAmount,
 } from "@/lib/hashback-api";
 import html2canvas from "html2canvas";
 
@@ -48,13 +50,13 @@ export function BookingPage() {
   const route = location.state as BookingData | null;
 
   const [step, setStep] = useState<Step>("details");
-  const [dob, setDob] = useState<Date>();
   const [travelDate, setTravelDate] = useState<Date>();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
     phone: "",
     idNumber: "",
+    dateOfBirth: "",
   });
   const [mpesaPhone, setMpesaPhone] = useState("");
   const [loading, setLoading] = useState(false);
@@ -101,7 +103,11 @@ export function BookingPage() {
       const reference = generateTransactionReference();
       setTransactionRef(reference);
 
-      const amount = route?.price?.replace(/[^0-9]/g, "") || "";
+      // Convert price to KSH (handles both USD and KSH formats)
+      const kshAmount = convertPriceToKSH(route?.price || "");
+      const amount = kshAmount.toString();
+      
+      console.log("Payment amount:", route?.price, "-> KSH:", amount);
 
       const stkResponse = await initiateSTKPush(amount, mpesaPhone, reference);
 
@@ -239,32 +245,17 @@ export function BookingPage() {
               />
             </div>
 
-            <Popover>
-              <PopoverTrigger asChild>
-                <button
-                  type="button"
-                  className={cn(
-                    "w-full rounded-xl border border-input bg-white pl-10 pr-4 py-3.5 text-base text-left outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta relative",
-                    !dob && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarDays className="absolute left-3 top-3.5 h-5 w-5 text-muted-foreground" />
-                  <span className="flex items-center justify-between">
-                    {dob ? format(dob, "PPP") : "Date of Birth"}
-                    <span className="text-xs">📅</span>
-                  </span>
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={dob}
-                  onSelect={setDob}
-                  disabled={(date) => date > new Date() || date < new Date("1920-01-01")}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+            <div className="relative group">
+              <CalendarDays className="absolute left-3 top-3.5 h-5 w-5 text-muted-foreground" />
+              <input
+                name="dateOfBirth"
+                value={form.dateOfBirth}
+                onChange={handleChange}
+                placeholder="DD/MM/YYYY (e.g. 15/06/1990)"
+                required
+                className="w-full rounded-xl border border-input bg-white pl-10 pr-4 py-3.5 text-base outline-none focus:ring-2 focus:ring-sky-cta focus:border-sky-cta"
+              />
+            </div>
 
             <div className="relative group">
               <Mail className="absolute left-3 top-3.5 h-5 w-5 text-muted-foreground" />
@@ -332,7 +323,7 @@ export function BookingPage() {
 
             <Button
               type="submit"
-              disabled={!dob || !travelDate}
+              disabled={!form.dateOfBirth || !travelDate}
               className="w-full bg-gradient-to-r from-sky-cta to-sky-brand text-white font-bold rounded-xl py-4 text-base shadow-lg disabled:opacity-50"
             >
               <Search className="h-5 w-5 mr-2" />
@@ -428,8 +419,13 @@ export function BookingPage() {
               </div>
               <p className="font-bold text-lg">Enter M-Pesa Number</p>
               <p className="text-sm text-muted-foreground mt-2">
-                You'll receive an STK push on this number
+                You'll receive an STK push for {formatKSHAmount(convertPriceToKSH(route?.price || ""))}
               </p>
+              {route?.price?.includes("$") && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  ({route.price} × 129 exchange rate)
+                </p>
+              )}
             </div>
 
             <div className="relative">
@@ -448,7 +444,7 @@ export function BookingPage() {
               className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl py-4 text-base shadow-lg disabled:opacity-50"
             >
               {loading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : <span className="mr-2">💰</span>}
-              PAY {route.price}
+              PAY {formatKSHAmount(convertPriceToKSH(route?.price || ""))}
             </Button>
 
             <button
@@ -474,6 +470,9 @@ export function BookingPage() {
               <p className="font-bold text-lg">Processing Payment</p>
               <p className="text-sm text-muted-foreground mt-2">
                 Please check your phone and enter M-Pesa PIN
+              </p>
+              <p className="text-sm font-semibold text-sky-cta mt-1">
+                Amount: {formatKSHAmount(convertPriceToKSH(route?.price || ""))}
               </p>
               <p className="text-xs text-muted-foreground mt-1">
                 Ref: {transactionRef}
@@ -561,8 +560,12 @@ export function BookingPage() {
                     <span className="font-mono text-xs">{transactionRef}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="opacity-80">Amount</span>
+                    <span className="opacity-80">Original Price</span>
                     <span className="font-bold">{route.price}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="opacity-80">Amount Paid (KSH)</span>
+                    <span className="font-bold text-green-400">{formatKSHAmount(convertPriceToKSH(route.price))}</span>
                   </div>
                 </div>
               </div>
